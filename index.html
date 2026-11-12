@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F6B36B">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mini Chef">
+  <title>Mini Chef Bebé</title>
+  <meta name="description" content="Recetas fáciles y caseras para acompañar las primeras comidas de tu bebé.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Mini Chef Bebé, inicio" data-nav="home">
+        <span class="brand-mark">🥣</span>
+        <span><strong>Mini Chef</strong><small>BEBÉ</small></span>
+      </a>
+      <button class="icon-btn" id="settingsBtn" aria-label="Configuración" title="Configuración">⚙</button>
+    </header>
+
+    <main id="app" tabindex="-1">
+      <section class="view active" id="view-home">
+        <div class="welcome-panel">
+          <div>
+            <p class="eyebrow" id="todayLabel">IDEAS PARA HOY</p>
+            <h1 id="welcomeTitle">¿Qué podemos preparar hoy?</h1>
+            <p class="subtle">Recetas simples, ingredientes cotidianos y pasos fáciles.</p>
+          </div>
+          <div class="welcome-art" aria-hidden="true">🥕</div>
+        </div>
+        <div class="safety-banner">
+          <span class="safety-icon">ⓘ</span>
+          <p><strong>Antes de empezar:</strong> confirmá con el pediatra que tu bebé está listo para iniciar la alimentación complementaria.</p>
+        </div>
+        <div class="quick-grid">
+          <button class="quick-card" data-nav="recipes"><span>🍲</span><b>Ver recetas fáciles</b><small>Ideas para cada día</small></button>
+          <button class="quick-card" data-filter-simple="few"><span>🥄</span><b>Pocos ingredientes</b><small>Opciones sencillas</small></button>
+          <button class="quick-card" data-nav="planner"><span>📅</span><b>Planificar semana</b><small>Organizá tus comidas</small></button>
+          <button class="quick-card" data-nav="favorites"><span>♡</span><b>Mis favoritos</b><small>Recetas guardadas</small></button>
+        </div>
+        <div class="section-heading"><div><p class="eyebrow">PARA DESCUBRIR</p><h2>Recetas simples</h2></div><button class="text-btn" data-nav="recipes">Ver todas →</button></div>
+        <div class="recipe-grid compact" id="homeRecipes"></div>
+        <div class="section-heading"><div><p class="eyebrow">ORGANIZACIÓN</p><h2>Tu semana</h2></div><button class="text-btn" data-nav="planner">Abrir plan →</button></div>
+        <div class="week-peek" id="weekPeek"></div>
+        <p class="disclaimer">Mini Chef Bebé ofrece ideas generales de recetas y organización. No brinda asesoramiento médico ni nutricional personalizado y no reemplaza la consulta con el pediatra.</p>
+      </section>
+
+      <section class="view" id="view-recipes">
+        <div class="page-heading"><p class="eyebrow">CATÁLOGO</p><h1>Recetas fáciles</h1><p class="subtle">Preparaciones caseras, con pocos pasos y alimentos cotidianos.</p></div>
+        <label class="searchbox"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar receta o ingrediente..." aria-label="Buscar recetas"></label>
+        <div class="filters">
+          <label>Etapa
+            <select id="stageFilter"><option value="">Todas</option><option value="inicio">Inicio de alimentación</option><option value="variada">Texturas más variadas</option></select>
+          </label>
+          <label>Tipo
+            <select id="typeFilter"><option value="">Todos</option><option>Desayuno</option><option>Almuerzo</option><option>Cena</option><option>Colación</option></select>
+          </label>
+          <label>Tiempo
+            <select id="timeFilter"><option value="">Cualquier tiempo</option><option value="10">Hasta 10 min</option><option value="20">Hasta 20 min</option><option value="21">Más de 20 min</option></select>
+          </label>
+          <label>Ingredientes
+            <select id="countFilter"><option value="">Cualquier cantidad</option><option value="few">3 o menos</option><option value="mid">4 a 6</option><option value="many">Más de 6</option></select>
+          </label>
+        </div>
+        <div class="filter-bottom"><span id="recipeCount" class="subtle"></span><button class="text-btn" id="clearFilters">Limpiar filtros</button></div>
+        <div class="recipe-grid" id="recipeList"></div>
+      </section>
+
+      <section class="view" id="view-planner">
+        <div class="page-heading"><p class="eyebrow">ORGANIZACIÓN</p><h1>Plan semanal</h1><p class="subtle">Una ayuda para tener ideas a mano, sin reglas rígidas.</p></div>
+        <div class="planner-controls"><button class="secondary-btn" id="prevWeek">← Semana anterior</button><strong id="weekLabel"></strong><button class="secondary-btn" id="nextWeek">Semana siguiente →</button></div>
+        <div class="planner-list" id="plannerList"></div>
+        <div class="soft-note">Usá este plan como una ayuda para organizarte, no como una pauta nutricional. Adaptá las comidas a tu bebé con orientación profesional.</div>
+        <div class="section-heading"><div><p class="eyebrow">PARA COMPRAR</p><h2>Lista de compras</h2></div><button class="text-btn" id="clearShopping">Vaciar lista</button></div>
+        <form class="add-item" id="shoppingForm"><input id="shoppingInput" placeholder="Agregar ingrediente..." aria-label="Nuevo ingrediente" required><button class="primary-btn" type="submit">Agregar</button></form>
+        <ul class="shopping-list" id="shoppingList"></ul>
+      </section>
+
+      <section class="view" id="view-favorites">
+        <div class="page-heading"><p class="eyebrow">TUS IDEAS GUARDADAS</p><h1>Favoritos</h1><p class="subtle">Recetas que querés tener siempre a mano.</p></div>
+        <div class="recipe-grid" id="favoriteList"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegación principal">
+      <button class="nav-item active" data-nav="home"><span>⌂</span><small>Inicio</small></button>
+      <button class="nav-item" data-nav="recipes"><span>▤</span><small>Recetas</small></button>
+      <button class="nav-item" data-nav="planner"><span>▦</span><small>Plan semanal</small></button>
+      <button class="nav-item" data-nav="favorites"><span>♡</span><small>Favoritos</small></button>
+    </nav>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close icon-btn" id="modalClose" aria-label="Cerrar">×</button>
+      <div id="modalContent"></div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
